@@ -1,62 +1,50 @@
-if (window.matchMedia("(max-width: 767px)").matches) {
-    // Your script here
+var ham1 = document.getElementById('ham-1');
+var ham2 = document.getElementById('ham-2');
+var ham3 = document.getElementById('ham-3');
+var mobileNav = document.querySelector('.mobile-nav');
+var header = document.querySelector('header');
+var lastScrollTop = 0;
 
-    let hamburger = document.querySelector('.hamburger');
-    let mobileNav = document.querySelector('.mobile-nav');
-    let lastScrollPosition = window.pageYOffset;
+document.querySelector('.hamburger').addEventListener('click', function() {
+  if (ham2.style.display !== 'none') {
+    // Hide ham-2, rotate ham-1 and ham-3, and slide in .mobile-nav
+    ham2.style.display = 'none';
+    ham1.style.transform = 'rotate(45deg)';
+    ham1.style.position = 'absolute';
+    ham3.style.transform = 'rotate(-45deg)';
+    ham3.style.position = 'absolute';
+    mobileNav.style.right = '0'; // Slide in from the right
+  } else {
+    // If ham-2 is hidden, revert to original state and slide out .mobile-nav
+    ham2.style.display = 'block';
+    ham1.style.transform = 'rotate(0deg)';
+    ham1.style.position = 'static';
+    ham3.style.transform = 'rotate(0deg)';
+    ham3.style.position = 'static';
+    mobileNav.style.right = '-100%'; // Slide out to the right
+  }
+});
 
-    hamburger.addEventListener('click', function() {
-        let divs = hamburger.querySelectorAll('div');
-        if (divs.length === 3) {
-            divs[0].style.transform = 'translateY(0.25rem) rotate(45deg)';
-            divs[1].style.transform = 'translateY(-0.25rem) rotate(-45deg)';
-            hamburger.removeChild(divs[2]);
-            mobileNav.style.right = '0';
-        } else {
-            divs[0].style.transform = 'translateY(0) rotate(0deg)';
-            divs[1].style.transform = 'translateY(0) rotate(0deg)';
-            let newDiv = document.createElement('div');
-            newDiv.id = 'ham-3';
-            newDiv.style.width = '1.5rem';
-            newDiv.style.height = '.2rem';
-            newDiv.style.margin = '.15rem';
-            newDiv.style.borderRadius = '10%';
-            newDiv.style.backgroundColor = 'hsl(0, 0%, 98%)';
-            hamburger.appendChild(newDiv);
-            mobileNav.style.right = '-200px';
-        }
-    });
+document.addEventListener('click', function(event) {
+  if (!event.target.matches('.hamburger, .hamburger *, .mobile-nav, .mobile-nav *')) {
+    // If the click is not on the hamburger, its children, .mobile-nav, or its children, revert to original state and slide out .mobile-nav
+    ham2.style.display = 'block';
+    ham1.style.transform = 'rotate(0deg)';
+    ham1.style.position = 'static';
+    ham3.style.transform = 'rotate(0deg)';
+    ham3.style.position = 'static';
+    mobileNav.style.right = '-100%'; // Slide out to the right
+  }
+});
 
-    document.addEventListener('click', function(event) {
-        if (!hamburger.contains(event.target) && !mobileNav.contains(event.target)) {
-            let divs = hamburger.querySelectorAll('div');
-            if (divs.length === 2) {
-                divs[0].style.transform = 'translateY(0) rotate(0deg)';
-                divs[1].style.transform = 'translateY(0) rotate(0deg)';
-                let newDiv = document.createElement('div');
-                newDiv.id = 'ham-3';
-                newDiv.style.width = '1.5rem';
-                newDiv.style.height = '.2rem';
-                newDiv.style.margin = '.15rem';
-                newDiv.style.borderRadius = '10%';
-                newDiv.style.backgroundColor = 'hsl(0, 0%, 98%)';
-                hamburger.appendChild(newDiv);
-                mobileNav.style.right = '-200px';
-            }
-        }
-    });
-
-    window.addEventListener('scroll', function() {
-        if (window.matchMedia("(max-width: 767px)").matches) {
-            let currentScrollPosition = window.pageYOffset;
-            if (currentScrollPosition > lastScrollPosition) {
-                // Scrolling down, hide the hamburger
-                hamburger.style.display = 'none';
-            } else {
-                // Scrolling up, show the hamburger
-                hamburger.style.display = 'flex';
-            }
-            lastScrollPosition = currentScrollPosition;
-        }
-    });
-}
+window.addEventListener('scroll', function() {
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  if (scrollTop > lastScrollTop) {
+    // If scrolling down, move header up
+    header.style.top = '-150px'; // Replace '50px' with the height of your header
+  } else {
+    // If scrolling up, move header down
+    header.style.top = '0';
+  }
+  lastScrollTop = scrollTop;
+});
