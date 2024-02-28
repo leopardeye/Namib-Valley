@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/style.css">
     <title>Namib&#39;s Valley of a Thousand Hills</title>
 </head>
@@ -73,7 +75,13 @@
 
 
         <div class="form-layout" id="contact-form">
-            <form action="#" method="POST">
+            <form action="https://formsubmit.co/roy@leopard-eye.com" method="POST">
+
+                <!-- Honeypot -->
+                <input type="text" name="_honey" style="display:none">
+
+                <!-- Disable capture -->
+                <input type="hidden" name="_captcha" value="false">
 
                 <!-- <label for="sender-name">Name</label> -->
                 <input type="text" name="name" id="sender-name" placeholder="Enter your name" required>
