@@ -48,3 +48,22 @@ window.addEventListener('scroll', function() {
   }
   lastScrollTop = scrollTop;
 });
+
+document.querySelectorAll('.g-img').forEach(function(div) {
+  div.addEventListener('click', function(event) {
+    var image = event.currentTarget.getAttribute('data-image');
+    document.getElementById('lightbox-image').src = image;
+    document.getElementById('lightbox').classList.remove('hidden');
+  });
+});
+
+document.getElementById('close-lightbox').addEventListener('click', function() {
+  document.getElementById('lightbox').classList.add('hidden');
+});
+
+document.getElementById('lightbox').addEventListener('click', function(event) {
+  // Only close the lightbox if the click was not on the image
+  if (event.target.id !== 'lightbox-image') {
+    document.getElementById('lightbox').classList.add('hidden');
+  }
+});
